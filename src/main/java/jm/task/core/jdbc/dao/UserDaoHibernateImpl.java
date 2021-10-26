@@ -16,7 +16,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -37,15 +37,13 @@ public class UserDaoHibernateImpl implements UserDao {
             }
             ex.printStackTrace();
         } finally {
-            if(session.isOpen()) {
                 session.close();
-            }
         }
     }
 
     @Override
     public void dropUsersTable() {
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -59,9 +57,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 ex.printStackTrace();
             }
         } finally {
-            if(session.isOpen()) {
                 session.close();
-            }
         }
     }
 
