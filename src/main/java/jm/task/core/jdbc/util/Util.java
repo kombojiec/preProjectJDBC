@@ -42,7 +42,7 @@ public class Util {
         return factory;
     }
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         Connection connection = null;
         try{
             connection = DriverManager.getConnection(URL, USER, PASSWORD);

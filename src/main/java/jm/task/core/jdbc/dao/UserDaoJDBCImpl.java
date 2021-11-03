@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private Util util = new Util();
     private String query = "";
 
     public UserDaoJDBCImpl() {}
@@ -25,7 +24,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 "age tinyint not null, " +
                 "primary key (id) " +
             ");";
-        try(Connection connection = util.getConnection()) {
+        try(Connection connection = Util.getConnection()) {
             connection.createStatement().execute(query);
         } catch (SQLException ex) {
             //ignore
@@ -34,7 +33,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         query = "drop table user;";
-        try(Connection connection = util.getConnection()) {
+        try(Connection connection = Util.getConnection()) {
             connection.createStatement().execute(query);
         } catch (SQLException ex) {
             //ignore
@@ -43,7 +42,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         query = "insert into  user(name, lastName, age) values(?, ?, ?)";
-        try(Connection connection = util.getConnection()) {
+        try(Connection connection = Util.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -57,7 +56,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         query = "delete from user where id = ?;";
-        try(Connection connection = util.getConnection()) {
+        try(Connection connection = Util.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
@@ -69,7 +68,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
         query = "select * from user";
-        try(Connection connection = util.getConnection()) {
+        try(Connection connection = Util.getConnection()) {
             ResultSet res = connection.createStatement().executeQuery(query);
             User user = null;
             while (res.next()) {
@@ -88,7 +87,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         query = "delete from user";
-        try(Connection connection = util.getConnection()) {
+        try(Connection connection = Util.getConnection()) {
             connection.createStatement().execute(query);
         } catch (SQLException ex) {
             System.out.println("Error during cleaning operation\n" + ex);
